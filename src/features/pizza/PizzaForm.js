@@ -4,29 +4,26 @@ import { choiceDough, choiceStyle, choiceToppings } from "./pizzaSlice";
 import { Button, Container, Form } from "react-bootstrap";
 import store from "../../app/store";
 
-export const PizzaForm = (options) => {
+const PizzaForm = (options) => {
   const dispatch = useDispatch();
-  console.log(options.options);
-  console.log(options.options[0]);
-  console.log(options.type);
 
   const [selectedChoice, setSelectedChoice] = useState(options.options[0]);
-  const selectedChoices = [];
+  const [selectedToppings, setSelectedToppings] = useState([]);
 
   const onTickedFoodChange = (e) => {
     const checked = e.target.checked;
     const value = e.target.name;
-    console.log(checked);
-    if (checked) selectedChoices.push(value);
+    setSelectedToppings((values) =>
+      checked ? [...values, value] : values.filter((v) => v !== value)
+    );
   };
-  const checkedOption = options.options[0] === "cheese";
 
   const handleSubmit = (event) => {
     event.preventDefault();
     if (options.type === "style") dispatch(choiceStyle(selectedChoice));
     if (options.type === "dough") dispatch(choiceDough(selectedChoice));
     if (options.type === "toppings") {
-      dispatch(choiceToppings(selectedChoices));
+      dispatch(choiceToppings(selectedToppings));
       console.log(store.getState());
     }
   };
@@ -35,7 +32,7 @@ export const PizzaForm = (options) => {
       <Form onSubmit={handleSubmit}>
         <h2>Pizza {options.type}:</h2>
         <div className="my-5 d-flex justify-content-center">
-          <Form.Group controlId="Form.ControlParticipantIdentity">
+          <Form.Group>
             {options.type !== "toppings" && (
               <Form.Control
                 as="select"
@@ -50,18 +47,18 @@ export const PizzaForm = (options) => {
               </Form.Control>
             )}
             {options.type === "toppings" && (
-              <div className="d-flex justify-content-between flex-wrap">
+              <div>
                 {options.options.map((option, index) => (
-                  <>
-                    <Form.Label>{option}:</Form.Label>
-                    <Form.Control
-                      type="checkbox"
-                      defaultChecked={checkedOption}
+                  <div key={index} className="d-flex justify-content-between">
+                    <Form.Label htmlFor={option}>{option}:</Form.Label>
+                    <Form.Check
+                      checked={selectedToppings.includes(option)}
+                      id={option}
                       name={option}
                       key={index}
                       onChange={onTickedFoodChange}
                     />{" "}
-                  </>
+                  </div>
                 ))}
               </div>
             )}
@@ -76,3 +73,5 @@ export const PizzaForm = (options) => {
     </Container>
   );
 };
+
+export default PizzaForm;

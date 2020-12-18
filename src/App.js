@@ -1,7 +1,5 @@
 import React from "react";
-import { PizzaForm } from "./features/pizza/PizzaForm";
-
-import "./App.css";
+import PizzaForm from "./features/pizza/PizzaForm";
 import { Container } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import {
@@ -9,8 +7,9 @@ import {
   selectStyle,
   selectToppings,
 } from "./features/pizza/pizzaSlice";
+import "./App.css";
 
-function App() {
+const App = () => {
   const style = useSelector(selectStyle);
   const dough = useSelector(selectDough);
   const toppings = useSelector(selectToppings);
@@ -93,6 +92,6 @@ function App() {
       </Container>
     </div>
   );
-}
+};
 
 export default App;
