@@ -8,8 +8,8 @@ const PizzaForm = (options) => {
   const dispatch = useDispatch();
 
   const [selectedChoice, setSelectedChoice] = useState(options.options[0]);
-  const [selectedToppings, setSelectedToppings] = useState([]);
-
+  const [selectedToppings, setSelectedToppings] = useState(["Cheese"]);
+  console.log(selectedToppings);
   const onTickedFoodChange = (e) => {
     const checked = e.target.checked;
     const value = e.target.name;
@@ -50,7 +50,9 @@ const PizzaForm = (options) => {
               <div>
                 {options.options.map((option, index) => (
                   <div key={index} className="d-flex justify-content-between">
-                    <Form.Label htmlFor={option}>{option}:</Form.Label>
+                    <Form.Label key={option} htmlFor={option}>
+                      {option}:
+                    </Form.Label>
                     <Form.Check
                       checked={selectedToppings.includes(option)}
                       id={option}

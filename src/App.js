@@ -83,7 +83,7 @@ const App = () => {
               <h3>Toppings: </h3>
               <ul>
                 {toppings.map((topping) => (
-                  <li>{topping}</li>
+                  <li key="topping">{topping}</li>
                 ))}
               </ul>
             </>
