@@ -33,40 +33,40 @@ export const PizzaForm = (options) => {
   return (
     <Container className="container-md mx-auto">
       <Form onSubmit={handleSubmit}>
-        <div className="d-flex">
+        <h2>Pizza {options.type}:</h2>
+        <div className="my-5 d-flex justify-content-center">
           <Form.Group controlId="Form.ControlParticipantIdentity">
-            <h2>Pizza {options.type}:</h2>
             {options.type !== "toppings" && (
               <Form.Control
                 as="select"
                 value={selectedChoice}
                 onChange={(e) => setSelectedChoice(e.target.value)}
               >
-                {options.options.map((option) => (
-                  <option key={option} value={option}>
+                {options.options.map((option, index) => (
+                  <option key={index} value={option}>
                     {option}
                   </option>
                 ))}
               </Form.Control>
             )}
             {options.type === "toppings" && (
-              <>
-                {options.options.map((option) => (
+              <div className="d-flex justify-content-between flex-wrap">
+                {options.options.map((option, index) => (
                   <>
                     <Form.Label>{option}:</Form.Label>
                     <Form.Control
                       type="checkbox"
                       defaultChecked={checkedOption}
                       name={option}
-                      key={option}
+                      key={index}
                       onChange={onTickedFoodChange}
                     />{" "}
                   </>
                 ))}
-              </>
+              </div>
             )}
           </Form.Group>
-          <div style={{ textAlign: "right" }}>
+          <div className="ml-5">
             <Button type="submit">
               {options.type === "toppings" ? "Order now!" : "Validate!"}
             </Button>
